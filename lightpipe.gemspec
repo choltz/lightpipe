@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'chaingun/version'
+require 'lightpipe/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "chaingun"
-  spec.version       = Chaingun::VERSION
+  spec.name          = "lightpipe"
+  spec.version       = Lightpipe::VERSION
   spec.authors       = ["Chris Holtz"]
   spec.email         = ["choltz@gmail.com"]
 

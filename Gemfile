@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in chaingun.gemspec
+# Specify your gem's dependencies in lightpipe.gemspec
 gemspec
