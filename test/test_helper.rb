@@ -3,3 +3,4 @@ require 'lightpipe'
 
 require 'minitest/autorun'
 require 'shoulda'
+require 'byebug'
