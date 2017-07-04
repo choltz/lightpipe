@@ -41,5 +41,42 @@ class BasicCompositionTest < Minitest::Test
       expected = { key1: 1, key2: 2}
       assert_equal expected, composition
     end
+
+    should "vanilla ruby composition" do
+      text    = "This is an <b>example</b> of\n text. it has formatting issues."
+      results = text.strip
+                    .gsub(/\n+/, '')
+                    .gsub(/(<([^>]+)>)/, '')
+                    .split(/ *\. */)
+                    .map(&:capitalize)
+                    .join('. ')
+
+      assert_equal "This is an example of text. It has formatting issues", results
+    end
+
+    should "vanilla ruby composition with lambdas" do
+      text    = "This is an <b>example</b> of\n text. it has formatting issues."
+      remove_line_feeds = ->(text) { text.gsub(/\n+/, '') }
+      remove_markup     = ->(text) { text.gsub(/(<([^>]+)>)/, '') }
+      split_sentences   = ->(text) { text.split(/ *\. */) }
+      strip             = ->(text) { text.strip }
+      capitalize        = ->(text) { text.map(&:capitalize) }
+      join              = ->(array) { array.join('. ') }
+
+      results = join.call(
+        capitalize.call(
+          split_sentences.call(
+            remove_markup.call(
+              remove_line_feeds.call(
+                strip.call(text)
+              )
+            )
+          )
+        )
+      )
+
+      assert_equal "This is an example of text. It has formatting issues", results
+    end
+
   end
 end
