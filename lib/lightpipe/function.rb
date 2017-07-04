@@ -9,8 +9,8 @@ module Lightpipe
     # Returns an instance of this class whose call method invokes the chain
     # of functions provided
     def self.compose(*functions)
-      self.new do |args|
-        [functions].flatten.reduce(args) do |result, function|
+      self.new do |arg|
+        [functions].flatten.reduce(arg) do |result, function|
           function.call(result)
         end
       end
