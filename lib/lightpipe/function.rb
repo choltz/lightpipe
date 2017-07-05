@@ -15,5 +15,20 @@ module Lightpipe
         end
       end
     end
+
+    # Public: Override the pipe operator to simplify functional composition
+    #
+    # function - function to compose with the current function
+    #
+    # Examples
+    #
+    # > functions = strip_string | remove_markup | capitalize
+    # > functions.call("  <b>this is a test</b>  ")
+    # => "This is a test"
+    #
+    # Returns a composition of the two functions
+    def |(function)
+      Function.compose(self, function)
+    end
   end
 end

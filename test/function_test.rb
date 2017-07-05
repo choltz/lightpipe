@@ -50,4 +50,47 @@ class FunctionTest < Minitest::Test
       assert_equal "This is an example of text. It has formatting issues", composition.call(text)
     end
   end
+
+  context "operator override" do
+    should "override the pipe operator" do
+      text    = "This is an <b>example</b> of\n text. it has formatting issues."
+      remove_line_feeds = Function.new { |text| text.gsub(/\n+/, '') }
+      remove_markup     = Function.new { |text| text.gsub(/(<([^>]+)>)/, '') }
+      split_sentences   = Function.new { |text| text.split(/ *\. */) }
+      strip             = Function.new { |text| text.strip }
+      capitalize        = Function.new { |text| text.map(&:capitalize) }
+      join              = Function.new { |array| array.join('. ') }
+
+      composition = strip             |
+                    remove_line_feeds |
+                    remove_markup     |
+                    split_sentences   |
+                    capitalize        |
+                    join
+
+      assert_equal "This is an example of text. It has formatting issues", composition.call(text)
+    end
+
+    should "compose nested functions" do
+      text    = "This is an <b>example</b> of\n text. it has formatting issues."
+      remove_line_feeds = Function.new { |text| text.gsub(/\n+/, '') }
+      remove_markup     = Function.new { |text| text.gsub(/(<([^>]+)>)/, '') }
+      split_sentences   = Function.new { |text| text.split(/ *\. */) }
+      strip             = Function.new { |text| text.strip }
+      capitalize        = Function.new { |text| text.map(&:capitalize) }
+      join              = Function.new { |array| array.join('. ') }
+
+
+      remove_line_feeds_and_markup = remove_line_feeds |
+                                     remove_markup
+      capitalize_each_sentence     = split_sentences   |
+                                     capitalize        |
+                                     join
+
+      composition = remove_line_feeds_and_markup |
+                    capitalize_each_sentence
+
+      assert_equal "This is an example of text. It has formatting issues", composition.call(text)
+    end
+  end
 end
