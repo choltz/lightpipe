@@ -80,7 +80,6 @@ class FunctionTest < Minitest::Test
       capitalize        = Function.new { |text| text.map(&:capitalize) }
       join              = Function.new { |array| array.join('. ') }
 
-
       remove_line_feeds_and_markup = remove_line_feeds |
                                      remove_markup
       capitalize_each_sentence     = split_sentences   |
