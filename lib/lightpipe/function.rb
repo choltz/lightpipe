@@ -1,14 +1,14 @@
 module Lightpipe
+  # Public: This is an extension of the Proc class that adds functional
+  # composition capabilities
   class Function < Proc
     attr_accessor :context
 
     def initialize
-      caller_function = caller[1]
-
       # Calculate the function's display name in a console
-      if caller_function =~ /\.rb/
-        class_name    = caller[1].match(/[^\/]+(?=\.rb)/).to_s.capitalize
-        function_name = caller[1].match(/(?<=`)[^']+/)
+      if caller_name =~ /\.rb/
+        class_name    = camelize(caller_name)
+        function_name = caller_name.match(/(?<=`)[^']+/)
         @context      = "#{class_name}.#{function_name}"
       else
         @context      = 'anonymous'
@@ -31,8 +31,8 @@ module Lightpipe
     # => "This is a test"
     #
     # Returns a composition of the two functions
-    def |(function)
-      Function.compose(self, function)
+    def |(other)
+      Function.compose(self, other)
     end
 
     #
@@ -48,12 +48,27 @@ module Lightpipe
     # Returns an instance of this class whose call method invokes the chain
     # of functions provided
     def self.compose(*functions)
-      self.new do |arg|
+      new do |arg|
         [functions].flatten.reduce(arg) do |result, function|
           function.call(result)
         end
       end
     end
 
+    private
+
+    # Internal: Extract the file path and function for function name inspection
+    def caller_name
+      caller(3..3).first
+    end
+
+    # Internal: Convert snake-case text to camelcase
+    def camelize(text)
+      text.match(%r{[^\/]+(?=\.rb)})
+          .to_s
+          .split('_')
+          .map(&:capitalize)
+          .join
+    end
   end
 end
