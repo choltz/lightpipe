@@ -3,7 +3,8 @@
 Lightpipe is a functional composition library for Ruby - it is inspired by Elixir's pipe operator. It takes the output from the function on the left and passes it as a parameter to the function on the right. Convenience functions are included to help make functional code readable to compact.
 
 
-# Example
+Example
+-------
 This is admittedly a very crude keyword parser, but it should convey how the Lightpipe can be used
 
 ```ruby
