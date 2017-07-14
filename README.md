@@ -1,5 +1,83 @@
 # Lightpipe
 
+Lightpipe is a functional composition library for Ruby - it is inspired by Elixir's pipe operator. It takes the output from the function on the left and passes it as a parameter to the function on the right.
+
+```
+extract_words      = Lightpipe::Function.new { |text| text.split(/\s+/) }
+remove_small_words = Lightpipe::Function.new { |words| words.select{ |word| word.length > 2 } }
+remove_apostrophes = Lightpipe::Function.new { |text| text.gsub(/\'ll|n\'t|\'s/, '') }
+word_counts        = Lightpipe::Function.new { |words| words.group_by{|word| word }.map{|word, list| [word, list.length] } }
+sort_descending    = Lightpipe::Function.new { |word_counts| word_counts.sort{|a,b| b[1] <=> a[1]  } }
+
+key_words          = remove_apostrophes |get_words | remove_small_words | word_counts | sort_descending
+
+key_words.call text
+```
+
+
+A slightly more advanced example
+```
+def get_external_project
+  get_credentials  |
+  configure        |
+  get_raw_projects |
+  map(&new_project)
+end
+
+def configure
+  Function.new do |token|
+    ::ExternalApi.configure do |config|
+      config.endpoint       = 'https://test-api/v1'
+      config.private_token  = token
+    end
+  end
+end
+
+def get_credentials
+  Function.new
+    Rails.application.secrets.external_token
+  end
+end
+
+def get_raw_projects
+  Function.new |external_api|
+    external_api.projects page: 1, per_page: 100
+  end
+end
+
+def map(&block)
+  Function.new do |array|
+    array.map(&block)
+  end
+end
+
+def new_project
+  Function.new do |project_data|
+    Openstruct.new name:  project_data[:name],
+                   owner: "#{project_data[:first_name]} project_data[:last_name]}"
+  end
+end
+```
+
+Lightpipe is a subclass of the Ruby Proc object. It adds functional composition capabilities and an operator override to make that composition short and readable. Functions can be defined in methods or created anonymously. Because function composition can be nested (compositions can contain compositions) a high degree of re-usability can be achieved.
+
+Considerations
+--------
+Anonymous functions
+Functional composition
+Library of convenience functions
+Private functions
+
+
+
+Lightpipe is a functional composition library for Ruby. With it, you can create customizable functions that chain together into increasingly complex logic. Here are a few examples:
+
+```
+
+```
+
+
+
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/lightpipe`. To experiment with that code, run `bin/console` for an interactive prompt.
 
 TODO: Delete this and the text above, and describe your gem
