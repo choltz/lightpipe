@@ -3,15 +3,25 @@
 Lightpipe is a functional composition library for Ruby - it is inspired by Elixir's pipe operator. It takes the output from the function on the left and passes it as a parameter to the function on the right.
 
 ```
-extract_words      = Lightpipe::Function.new { |text| text.split(/\s+/) }
-remove_small_words = Lightpipe::Function.new { |words| words.select{ |word| word.length > 2 } }
-remove_apostrophes = Lightpipe::Function.new { |text| text.gsub(/\'ll|n\'t|\'s/, '') }
-word_counts        = Lightpipe::Function.new { |words| words.group_by{|word| word }.map{|word, list| [word, list.length] } }
-sort_descending    = Lightpipe::Function.new { |word_counts| word_counts.sort{|a,b| b[1] <=> a[1]  } }
+class KeyWords
+  include Lightpipe
 
-key_words          = remove_apostrophes |get_words | remove_small_words | word_counts | sort_descending
+  function :extract_words,      ->(text) { text.split(/\s+/) }
+  function :remove_apostrophes, ->(text) { text.gsub(/\'ll|n\'t|\'s/, '') }
+  function :remove_small_words, ->(words) { words.select{ |word| word.length > 2 } }
+  function :sort_descending,    ->(word_counts) { word_counts.sort{|a,b| b[1] <=> a[1]  } }
+  function :word_counts,        ->(words) { words.group_by{|word| word }.map{|word, list| [word, list.length] } }
 
-key_words.call text
+  def self.call
+    remove_apostrophes |
+    get_words          |
+    remove_small_words |
+    word_counts        |
+    sort_descending
+  end
+end
+
+KeyWords.call "very verly long text from which you want to get keywords"
 ```
 
 
