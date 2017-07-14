@@ -2,6 +2,9 @@
 
 Lightpipe is a functional composition library for Ruby - it is inspired by Elixir's pipe operator. It takes the output from the function on the left and passes it as a parameter to the function on the right. Convenience functions are included to help make functional code readable to compact.
 
+
+This is admittedly a very crude keyword parser, but it should convey how the Lightpipe can be used
+
 ```ruby
 class KeyWords
   include Lightpipe
@@ -12,7 +15,7 @@ class KeyWords
   function :sort_descending,    ->(word_counts) { word_counts.sort{|a,b| b[1] <=> a[1]  } }
   function :word_counts,        ->(words) { words.group_by{|word| word }.map{|word, list| [word, list.length] } }
 
-  def self.call
+  def self.parse
     remove_apostrophes |
     get_words          |
     remove_small_words |
@@ -21,9 +24,19 @@ class KeyWords
   end
 end
 
-KeyWords.call "very verly long text from which you want to get keywords"
+KeyWords.parse.call "very verly long text from which you want to get keywords"
+```
+In this example, the `function` directive is used to define a function and make it available as a class method. It is loosely analogous to ActiveRecord scopes, in that it allows for the creation of small and often reusable code blocks that can float to the top of a class definition.
+
+Lightpipe functions are a subclass of the Ruby Proc object, so it can be applied in similar ways. Using the above parse function, we can extract keywords form an array of paragraphs.
+```ruby
+  array_of_paragraphs.map(&KeyWords.parse)
 ```
 
+Like Proc objects, Lightpipe functions can be called with shortened syntax:
+```ruby
+  KeyWords.parse.(text_to_parse)
+```
 
 A slightly more advanced example
 ```ruby
