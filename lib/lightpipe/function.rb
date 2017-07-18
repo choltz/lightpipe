@@ -1,4 +1,41 @@
 module Lightpipe
+  # Pulbic: Hook class methods into the included class
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
+
+  module ClassMethods
+    # Public: Shorthand for defining functions as class methods.
+    #
+    # name - name of function to define
+    # proc - executable content of the function
+    #
+    # Example:
+    # class Test
+    #   include Lightpipe
+    #
+    #   function :remove_markup, -> {
+    #     gsub(/(<([^>]+)>)/, '')
+    #   }
+    #
+    #   def self.gsub(regex, replacement)
+    #     Function.new do |text|
+    #       text.gsub(regex, replacement)
+    #     end
+    #   end
+    # end
+    #
+    # Test.remove_markup.call '<b>test</b>'
+    # => 'test'
+    def function(name, proc)
+      (class << self; self; end).class_eval do
+        define_method name do |*args|
+          proc.call(*args)
+        end
+      end
+    end
+  end
+
   # Public: This is an extension of the Proc class that adds functional
   # composition capabilities
   class Function < Proc
