@@ -28,6 +28,8 @@ module Lightpipe
     # Test.remove_markup.call '<b>test</b>'
     # => 'test'
     def function(name, proc)
+      raise 'A function must be define as a proc/lambda' unless proc.is_a?(Proc)
+
       (class << self; self; end).class_eval do
         define_method name do |*args|
           proc.call(*args)
