@@ -1,5 +1,5 @@
 module Lightpipe
-  # Pulbic: Hook class methods into the included class
+  # Public: Hook class methods into the included class
   def self.included(base)
     base.extend(ClassMethods)
   end
