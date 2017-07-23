@@ -28,6 +28,12 @@ module Lightpipe
         end
       end
 
+      # Public: Return a list of methods from the given class, minus methods
+      # on the base Object class
+      def interesting_methods(klass)
+        klass.new.methods - Object.new.methods
+      end
+
     end
   end
 end
