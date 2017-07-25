@@ -7,7 +7,18 @@ module Lightpipe
 
     module ClassMethods
 
+      # Public: Halts execution. Helpful for injecting a debbuger into the middle
+      # of a composition
+      def debugger
+        Lightpipe::Function.new do |arg|
+          Kernel.debugger
+          arg
+        end
+      end
+
       # Public: Convert the given method name into a class function
+      #
+      # name - function name to convert
       #
       # Example:
       # class Test
@@ -20,11 +31,21 @@ module Lightpipe
       # => "test-test"
       def delegate_function(name)
         (class << self; self; end).class_eval do
-          define_method name do |*args|
-            Function.new do |arg|
-              arg.send(name, *args)
+          define_method name do |*args, &block|
+            Lightpipe::Function.new do |arg|
+              arg.send(name, *args, &block)
             end
           end
+        end
+      end
+
+      # Public: Create a function for all methods in klass that are not given
+      # by virtue of Object.
+      #
+      # klass - klass whose methods should be added
+      def delegate_all_to_functions(klass)
+        interesting_methods(klass).each do |method|
+          delegate_function method
         end
       end
 
