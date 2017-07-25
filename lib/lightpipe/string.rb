@@ -13,7 +13,8 @@ module Lightpipe
       Array.join(' ')
     }
 
-    function :remove_markup, -> { gsub /(<([^>]+)>)/, '' }
-
+    function :split_sentences,    -> { split(/ *\. */) }
+    function :remove_line_feeds,  -> { gsub /\n+/, '' }
+    function :remove_markup_tags, -> { gsub /(<([^>]+)>)/, '' }
   end
 end
