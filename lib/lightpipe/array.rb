@@ -3,7 +3,7 @@ module Lightpipe
     include Lightpipe
     include Lightpipe::Util
 
-    # Create a function for all String methods: map, select, etc.
+    # Create a function for all Array methods: map, select, etc.
     delegate_all_to_functions ::Array
 
   end
