@@ -7,6 +7,7 @@ module Lightpipe
 
   require 'lightpipe/array'
   require 'lightpipe/string'
+  require 'lightpipe/hash'
 end
 
 # Convenience alias for Lightpipe namespace

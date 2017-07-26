@@ -25,8 +25,8 @@ module Lightpipe
 
       should 'compose multiple functions' do
         function = Lightpipe::Array.select{ |i| i > 1 } |
-                   Lightpipe::Array.reverse |
-                   Lightpipe::Array.map(&:to_s) |
+                   Lightpipe::Array.reverse             |
+                   Lightpipe::Array.map(&:to_s)         |
                    Lightpipe::Array.first
 
         assert_equal '3', function.call([1,2,3])

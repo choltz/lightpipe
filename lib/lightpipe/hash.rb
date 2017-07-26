@@ -1,5 +1,5 @@
 module Lightpipe
-  class String
+  class Hash
     include Lightpipe
     include Lightpipe::Util
 
