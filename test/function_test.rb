@@ -97,21 +97,4 @@ class FunctionTest < Minitest::Test
     end
   end
 
-  context 'inspect' do
-    should 'show the caller function in the inspected name' do
-      expected = '#<Function context: "FunctionTest.test_function">'
-      assert_equal expected, test_function.inspect
-    end
-
-    should 'show anonymous for functions without a parent' do
-      Lightpipe::Function.any_instance.stubs(:caller_name).returns('')
-      function = Lightpipe::Function.new { |x| x + 1 }
-      assert_equal '#<Function context: "anonymous">', function.inspect
-    end
-  end
-
-  # Internal: function for inspect() tests
-  def test_function
-    Function.new { |x| x + 1 }
-  end
 end

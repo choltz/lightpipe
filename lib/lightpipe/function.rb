@@ -43,22 +43,6 @@ module Lightpipe
   class Function < Proc
     attr_accessor :context
 
-    def initialize
-      # Calculate the function's display name in a console
-      if caller_name =~ /\.rb/
-        class_name    = camelize(caller_name)
-        function_name = caller_name.match(/(?<=`)[^']+/)
-        @context      = "#{class_name}.#{function_name}"
-      else
-        @context      = 'anonymous'
-      end
-    end
-
-    # Public: used for display purposes in places like irb and pry
-    def inspect
-      "#<Function context: \"#{@context}\">"
-    end
-
     # Public: Override the pipe operator to simplify functional composition
     #
     # function - function to compose with the current function
