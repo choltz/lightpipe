@@ -5,30 +5,30 @@ module Lightpipe
   end
 
   module ClassMethods
-    # Public: Shorthand for defining functions as class methods.
+    # public: shorthand for defining functions as class methods.
     #
     # name - name of function to define
     # proc - executable content of the function
     #
-    # Example:
-    # class Test
-    #   include Lightpipe
+    # example:
+    # class test
+    #   include lightpipe
     #
     #   function :remove_markup, -> {
     #     gsub(/(<([^>]+)>)/, '')
     #   }
     #
     #   def self.gsub(regex, replacement)
-    #     Function.new do |text|
+    #     function.new do |text|
     #       text.gsub(regex, replacement)
     #     end
     #   end
     # end
     #
-    # Test.remove_markup.call '<b>test</b>'
+    # test.remove_markup.call '<b>test</b>'
     # => 'test'
     def function(name, proc)
-      raise 'A function must be define as a proc/lambda' unless proc.is_a?(Proc)
+      raise 'a function must be define as a proc/lambda' unless proc.is_a?(Proc)
 
       (class << self; self; end).class_eval do
         define_method name do |*args|

@@ -14,7 +14,7 @@ module Lightpipe
     }
 
     function :split_sentences,    -> { split(/ *\. */) }
-    function :remove_line_feeds,  -> { gsub /\n+/, '' }
-    function :remove_markup_tags, -> { gsub /(<([^>]+)>)/, '' }
+    function :remove_line_feeds,  -> { gsub(/\n+/, '') }
+    function :remove_markup_tags, -> { gsub(/(<([^>]+)>)/, '') }
   end
 end

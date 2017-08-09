@@ -26,8 +26,8 @@ class BasicCompositionTest < Minitest::Test
     should "compose across data types" do
       data       = ['key1', '1', 'key2', '2']
       to_hash    = ->(array) { Hash[*data] }
-      key_to_sym = ->(hash)  { hash.reduce({}) { |hash, (key, value)| hash.merge(key.to_sym => value) } }
-      val_to_num = ->(hash)  { hash.reduce({}) { |hash, (key, value)| hash.merge(key => value.to_i) } }
+      key_to_sym = ->(hash)  { hash.reduce({}) { |h, (key, value)| h.merge(key.to_sym => value) } }
+      val_to_num = ->(hash)  { hash.reduce({}) { |h, (key, value)| h.merge(key => value.to_i) } }
 
       # compostion can receive one data type and return another, so long as the
       # results of the first call match the expected type of the parameter of
@@ -55,7 +55,7 @@ class BasicCompositionTest < Minitest::Test
     end
 
     should "vanilla ruby composition with lambdas" do
-      text    = "This is an <b>example</b> of\n text. it has formatting issues."
+      string            = "This is an <b>example</b> of\n text. it has formatting issues."
       remove_line_feeds = ->(text) { text.gsub(/\n+/, '') }
       remove_markup     = ->(text) { text.gsub(/(<([^>]+)>)/, '') }
       split_sentences   = ->(text) { text.split(/ *\. */) }
@@ -68,7 +68,7 @@ class BasicCompositionTest < Minitest::Test
           split_sentences.call(
             remove_markup.call(
               remove_line_feeds.call(
-                strip.call(text)
+                strip.call string
               )
             )
           )
