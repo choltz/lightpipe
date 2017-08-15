@@ -1,5 +1,5 @@
 module Lightpipe
-  class String
+  class LpString
     include Lightpipe
     include Lightpipe::Util
 
@@ -8,9 +8,9 @@ module Lightpipe
 
     # Capitalize all words in the given string
     function :capitalize_all, -> {
-      String.split(/\s+/)     |
-      Array.map(&:capitalize) |
-      Array.join(' ')
+      LpString.split(/\s+/)     |
+      LpArray.map(&:capitalize) |
+      LpArray.join(' ')
     }
 
     function :split_sentences,    -> { split(/ *\. */) }

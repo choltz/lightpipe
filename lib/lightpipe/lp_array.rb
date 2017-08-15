@@ -1,5 +1,5 @@
 module Lightpipe
-  class Array
+  class LpArray
     include Lightpipe
     include Lightpipe::Util
 

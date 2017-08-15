@@ -1,5 +1,5 @@
 module Lightpipe
-  class Hash
+  class LpHash
     include Lightpipe
     include Lightpipe::Util
 

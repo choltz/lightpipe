@@ -5,9 +5,9 @@ module Lightpipe
   require 'lightpipe/function'
   require 'lightpipe/util'
 
-  require 'lightpipe/array'
-  require 'lightpipe/string'
-  require 'lightpipe/hash'
+  require 'lightpipe/lp_array'
+  require 'lightpipe/lp_string'
+  require 'lightpipe/lp_hash'
 end
 
 # Convenience alias for Lightpipe namespace

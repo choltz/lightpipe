@@ -11,7 +11,7 @@ This is admittedly a very crude keyword parser, but it should convey how the Lig
 class KeyWords
   include Lightpipe
 
-  function :extract_words,      ->(text) { text.split(/\s+/) }
+  function :extract_words,      LpString.split(/\s+/)
   function :remove_apostrophes, ->(text) { text.gsub(/\'ll|n\'t|\'s/, '') }
   function :remove_small_words, ->(words) { words.select{ |word| word.length > 2 } }
   function :sort_descending,    ->(word_counts) { word_counts.sort{|a,b| b[1] <=> a[1]  } }
