@@ -14,9 +14,7 @@ module Lightpipe
     # class test
     #   include lightpipe
     #
-    #   function :remove_markup, -> {
-    #     gsub(/(<([^>]+)>)/, '')
-    #   }
+    #   function :remove_markup, gsub(/(<([^>]+)>)/, '')
     #
     #   def self.gsub(regex, replacement)
     #     function.new do |text|
@@ -32,7 +30,7 @@ module Lightpipe
 
       (class << self; self; end).class_eval do
         define_method name do |*args|
-          proc.call(*args)
+          proc
         end
       end
     end

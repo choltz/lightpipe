@@ -11,7 +11,7 @@ class ShorthandTest < Minitest::Test
     end
 
     should "create a function with a parameter" do
-      results = Test.add_one 1
+      results = Test.add_one.call 1
       assert_equal 2, results
     end
 
@@ -25,8 +25,8 @@ class ShorthandTest < Minitest::Test
   class Test
     include Lightpipe
 
-    function :remove_markup, -> { gsub(/(<([^>]+)>)/, '') }
-    function :add_one,       -> (x) { x + 1 }
+    function :remove_markup, LpString.gsub(/(<([^>]+)>)/, '')
+    function :add_one,       Function.new { |x| x + 1 } # -> (x) { x + 1 }
 
     def self.gsub(regex, replacement)
       Function.new do |text|

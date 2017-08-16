@@ -15,11 +15,12 @@ class KeyWords
   function :remove_apostrophes, LpString.gsub(/\'ll|n\'t|\'s/, '')
   function :remove_small_words, LpArray.select{ |word| word.length > 2 }
   function :sort_descending,    LpArray.sort{ |a,b| b[1] <=> a[1] }
-  function :word_counts,        LpArray.group_by{|word| word }.map{|word, list| [word, list.length] }
+  function :word_counts,        LpArray.group_by{ |word| word } |
+                                LpArray.map{ |word, list| [word, list.length] }
 
   def self.parse
     remove_apostrophes |
-    get_words          |
+    extract_words      |
     remove_small_words |
     word_counts        |
     sort_descending
