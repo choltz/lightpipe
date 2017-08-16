@@ -12,10 +12,10 @@ class KeyWords
   include Lightpipe
 
   function :extract_words,      LpString.split(/\s+/)
-  function :remove_apostrophes, ->(text) { text.gsub(/\'ll|n\'t|\'s/, '') }
-  function :remove_small_words, ->(words) { words.select{ |word| word.length > 2 } }
-  function :sort_descending,    ->(word_counts) { word_counts.sort{|a,b| b[1] <=> a[1]  } }
-  function :word_counts,        ->(words) { words.group_by{|word| word }.map{|word, list| [word, list.length] } }
+  function :remove_apostrophes, LpString.gsub(/\'ll|n\'t|\'s/, '')
+  function :remove_small_words, LpArray.select{ |word| word.length > 2 }
+  function :sort_descending,    LpArray.sort{ |a,b| b[1] <=> a[1] }
+  function :word_counts,        LpArray.group_by{|word| word }.map{|word, list| [word, list.length] }
 
   def self.parse
     remove_apostrophes |
