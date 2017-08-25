@@ -43,7 +43,7 @@ module Lightpipe
       # by virtue of Object.
       #
       # klass - klass whose methods should be added
-      def delegate_all_to_functions(klass)
+      def delegate_methods_to_functions(klass)
         interesting_methods(klass).each do |method|
           delegate_function method
         end

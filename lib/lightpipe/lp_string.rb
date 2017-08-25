@@ -4,7 +4,7 @@ module Lightpipe
     include Lightpipe::Util
 
     # Create a function for all String methods: gsub, strip, etc.
-    delegate_all_to_functions ::String
+    delegate_methods_to_functions ::String
 
     # Capitalize all words in the given string
     function :capitalize_all, LpString.split(/\s+/)     |

@@ -4,7 +4,7 @@ module Lightpipe
     include Lightpipe::Util
 
     # Create a function for all Array methods: map, select, etc.
-    delegate_all_to_functions ::Array
+    delegate_methods_to_functions ::Array
 
   end
 end
