@@ -55,6 +55,15 @@ module Lightpipe
         klass.new.methods - Object.new.methods
       end
 
+      # Public: Halts execution. Helpful for injecting binding.pry into the middle
+      # of a composition
+      def pry
+        Lightpipe::Function.new do |arg|
+          binding.pry
+          arg
+        end
+      end
+
     end
   end
 end
