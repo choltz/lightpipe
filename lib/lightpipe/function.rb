@@ -28,8 +28,9 @@ module Lightpipe
     def function(name, proc)
       raise 'a function must be define as a proc/lambda' unless proc.is_a?(Proc)
 
+      # dynamically add a method that calls the proc to the class.
       (class << self; self; end).class_eval do
-        define_method name do |*args|
+        define_method name do
           proc
         end
       end
@@ -56,15 +57,11 @@ module Lightpipe
       Function.compose(self, other)
     end
 
-    #
-    # Class methods
-    #
-
     # Public: build a composition of functions.
     #
     # functions - either an array of functions or a parameter list of functions
     #
-    # Notes: The functions provided can be any class that has a call method
+    # Notes: The functions provided can be any class that have a call method
     #
     # Returns an instance of this class whose call method invokes the chain
     # of functions provided
