@@ -1,7 +1,7 @@
 require "lightpipe/version"
 
 module Lightpipe
-  # Your code goes here...
+  require 'lightpipe/composition'
   require 'lightpipe/function'
   require 'lightpipe/to_function'
   require 'lightpipe/util'
