@@ -1,6 +1,30 @@
 # Lightpipe
 
-Lightpipe is a functional composition library for Ruby - it is inspired by Elixir's pipe operator. It takes the output from the function on the left and passes it as a parameter to the function on the right. Convenience functions are included to help make functional code readable to compact.
+Lightpipe is a functional composition library for Ruby - it is inspired by Elixir's pipe operator. It takes the output from the function on the left and passes it as a parameter to the function on the right. Convenience functions are included to help make functional code readable and compact.
+
+Basic Example
+-------------
+Lightpipe functions are fundamentally procs.
+
+```ruby
+> add_two      = ->(x) { x + 2 }
+> multiply_two = ->(x) { x * 2 }
+> add_two.call(3)
+=> 5
+> multiple_two.call(3)
+=> 6
+> multiple_two.call(add_two.call(3))
+=> 10
+```
+
+Lightpipe lets you compose functions into chained calls:
+
+```ruby
+> add_two      = ->(x) { x + 2 }
+> multiply_two = ->(x) { x * 2 }
+> (add_two | multiply_two).call(3)
+=> 10
+```
 
 
 Example
