@@ -17,14 +17,27 @@ Lightpipe functions are fundamentally procs.
 => 10
 ```
 
-Lightpipe lets you compose functions into chained calls:
+Lightpipe lets you compose those procs into a functional chain.
 
 ```ruby
+> Lightpipe.enable_shorthand
 > add_two      = ->(x) { x + 2 }
 > multiply_two = ->(x) { x * 2 }
 > (add_two | multiply_two).call(3)
 => 10
 ```
+
+Note the first line `Lightpipe.enable_shorthand`. This moneky-patches `Proc` to use the `|` operator to compose functions. If you using this in a Rails application, this is a one-time call that you can put in `config/application.rb`.
+
+If you don't want to moneky patch, you can still compose functions, but the syntax is a bit more verbose.
+
+```ruby
+> add_two      = Function.new {|x|  x + 2}
+> multiply_two = Function.new {|x|  x * 2}
+> (add_two | multiply_two).call(3)
+=> 10
+```
+
 
 
 Example
